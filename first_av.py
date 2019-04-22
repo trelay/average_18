@@ -7,12 +7,18 @@ import pandas as pd
 import numpy as np
 import math
 
+code = "000651.SZ"
 
-df = ts.get_hist_data('000651')
+pro = ts.pro_api('418443b56e07ac5c235d232406b44db8f80484569f8240f4554c6d67')
+df = pro.query('daily', ts_code=code, start_date='20171001', end_date='20190422')
+df['trade_date'] = pd.to_datetime(df['trade_date'])
+
+df.index = df.trade_date
 
 fig = plt.figure()
 gree_test = DataFrame(df, columns = ["open", "close", "high"])
-data_2019=gree_test["close"].sort_index(ascending=True)
-data_2019.cumsum()
-data_2019.plot()
+print(gree_test)
+
+gree_test = gree_test.sort_index(ascending=True)
+gree_test.plot()
 plt.show()
